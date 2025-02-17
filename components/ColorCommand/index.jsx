@@ -6,7 +6,7 @@ export default function ColorCommand({ color }) {
 
   return (
     <button
-      onClick={() => addNote(color, "black")}
+      onClick={() => addNote(color)}
       style={{ backgroundColor: color }}
       className="p-5 rounded-full bg-black text-white"
     ></button>

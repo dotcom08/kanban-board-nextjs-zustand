@@ -40,7 +40,7 @@ export default function NoteSheet({ note }) {
           <p>{note.title}</p>
         </div>
 
-        <AutoResizeTextarea />
+        <AutoResizeTextarea value={note.body} id={note.id} />
       </div>
     </div>
   );
