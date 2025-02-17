@@ -32,7 +32,6 @@ export const useNotesStore = create(
 
       updateNote: (noteID, body) => {
         set((state) => {
-          console.log("updating : ", noteID);
 
           return {
             notes: state.notes.map((note) => {
@@ -40,6 +39,24 @@ export const useNotesStore = create(
                 return {
                   ...note,
                   body: body,
+                };
+              }
+              return note;
+            }),
+          };
+        });
+      },
+
+      updatePosition: (noteID, position) => {
+        set((state) => {
+          return {
+            notes: state.notes.map((note) => {
+              if (note.id === noteID) {
+                console.log("updating position : ", noteID);
+
+                return {
+                  ...note,
+                  position: position,
                 };
               }
               return note;

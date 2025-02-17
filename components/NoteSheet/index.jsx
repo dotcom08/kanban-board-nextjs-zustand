@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import AutoResizeTextarea from "../AutoResizeTextarea";
 import { HiOutlineTrash } from "react-icons/hi";
 import { useDragDrop } from "@/hooks/useDragDrop";
@@ -7,11 +7,19 @@ import { useNotesStore } from "@/store";
 
 export default function NoteSheet({ note }) {
   const noteRef = useRef(null);
-  const { isDragging, initialPosition, handleOnMouseDown } = useDragDrop(
+  const { isDragging, position, handleOnMouseDown } = useDragDrop(
     noteRef,
     note.position
   );
   const deleteNote = useNotesStore((state) => state.deleteNote);
+  const updatePosition = useNotesStore((state) => state.updatePosition);
+
+
+  useEffect(() => {
+    if(isDragging){
+      updatePosition(note.id, position);
+    }
+  }, [isDragging]);
 
   return (
     <div
@@ -19,8 +27,8 @@ export default function NoteSheet({ note }) {
       onMouseDown={handleOnMouseDown}
       style={{
         position: "absolute",
-        left: initialPosition.x,
-        top: initialPosition.y,
+        left: position.x,
+        top: position.y,
         zIndex: isDragging ? 999 : 1,
         backgroundColor: note.bgColor,
         color: note.textColor,

@@ -1,14 +1,16 @@
 "use client";
 
 import { useState, useCallback , useEffect} from "react";
+import { useNotesStore } from "@/store";
 
-export const useDragDrop = (ref, position) => {
+export const useDragDrop = (ref, initialPosition) => {
   const [isDragging, setIsDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const [initialPosition, setInitialPosition] = useState({
-    x: position.x,
-    y: position.y,
+  const [position, setPosition] = useState({
+    x: initialPosition.x,
+    y: initialPosition.y,
   });
+
 
   const handleOnMouseDown = useCallback(
     (e) => {
@@ -33,7 +35,7 @@ export const useDragDrop = (ref, position) => {
       const maxX = window.innerWidth - ref.current.offsetWidth;
       const maxY = window.innerHeight - ref.current.offsetHeight;
 
-      setInitialPosition({
+      setPosition({
         x: Math.max(0, Math.min(maxX, newX)),
         y: Math.max(0, Math.min(maxY, newY)),
       });
@@ -58,5 +60,5 @@ export const useDragDrop = (ref, position) => {
   }, [isDragging, handleOnMouseMove, handleOnMouseUp]);
 
 
-  return { isDragging, initialPosition, handleOnMouseDown };
+  return { isDragging, position, handleOnMouseDown };
 };
